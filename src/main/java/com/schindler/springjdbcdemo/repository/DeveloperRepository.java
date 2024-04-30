@@ -21,7 +21,7 @@ public class DeveloperRepository {
 
     @PostConstruct
     public void initDb() {
-        String sql = """
+        final String sql = """
             CREATE TABLE IF NOT EXISTS developer(
                 id SERIAL PRIMARY KEY,
                 first_name VARCHAR(20) NOT NULL,
@@ -35,7 +35,7 @@ public class DeveloperRepository {
 
     @Transactional
     public int save(final Developer developer) {
-        final String sql = "insert into developer (first_name, last_name, email, prog_lang) values (?, ?, ?, ?)";
+        final String sql = "INSERT INTO developer (first_name, last_name, email, prog_lang) VALUES (?, ?, ?, ?)";
         return jdbcTemplate.update(
                 sql,
                 developer.getFirstName(),
@@ -47,13 +47,13 @@ public class DeveloperRepository {
 
     @Transactional
     public List<Developer> findAll() {
-        final String sql = "select * from developer";
+        final String sql = "SELECT * FROM developer";
         return jdbcTemplate.query(sql, developerRowMapper);
     }
 
     @Transactional
     public Developer findById(final long id) {
-        final String sql = "select * from developer where id = ?";
+        final String sql = "SELECT * FROM developer WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, developerRowMapper, id);
     }
 }
